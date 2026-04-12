@@ -20,7 +20,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { useAuthContext } from '@/context/auth-context';
 
-const GRACE_PERIOD_MS = 60_000;
+/** Milliseconds away from the app before we require unlock again (if you left while unlocked). */
+const LOCK_AFTER_INACTIVE_MS = 60_000;
 
 type Props = {
   children: ReactNode;
@@ -33,7 +34,8 @@ export function SecurityProvider({ children }: Props) {
 
   const [appState, setAppState] = useState<AppStateStatus>(AppState.currentState);
   const prevAppStateRef = useRef<AppStateStatus>(AppState.currentState);
-  const lastBackgroundTimeRef = useRef<number | null>(null);
+  /** Set to `Date.now()` when AppState becomes background (last moment we were active in-app). */
+  const lastActiveTimeRef = useRef<number | null>(null);
   /** Snapshot: was the ledger visible (unlocked) right before we went to background/inactive? */
   const wasUnlockedAtBackgroundRef = useRef(false);
   const isLockedRef = useRef(true);
@@ -57,7 +59,7 @@ export function SecurityProvider({ children }: Props) {
       }
 
       const result = await authenticateAsync({
-        promptMessage: 'Unlock Stally to manage your ledger.',
+        promptMessage: 'Unlock Stally',
         cancelLabel: 'Cancel',
         fallbackLabel: 'Use device PIN',
         disableDeviceFallback: false,
@@ -77,7 +79,7 @@ export function SecurityProvider({ children }: Props) {
       return;
     }
     setIsLocked(true);
-    lastBackgroundTimeRef.current = null;
+    lastActiveTimeRef.current = null;
     void runAuthenticate();
   }, [user?.uid, runAuthenticate]);
 
@@ -91,25 +93,27 @@ export function SecurityProvider({ children }: Props) {
 
       if (next === 'background' || next === 'inactive') {
         wasUnlockedAtBackgroundRef.current = !isLockedRef.current;
-        lastBackgroundTimeRef.current = Date.now();
+        lastActiveTimeRef.current = Date.now();
         return;
       }
 
       if (next === 'active' && (prev === 'background' || prev === 'inactive')) {
         if (!user) return;
 
-        const lastBg = lastBackgroundTimeRef.current;
-        const elapsed =
-          lastBg !== null ? Date.now() - lastBg : Number.POSITIVE_INFINITY;
+        const timeInactive =
+          lastActiveTimeRef.current !== null
+            ? Date.now() - lastActiveTimeRef.current
+            : Number.POSITIVE_INFINITY;
         const hadBeenUnlocked = wasUnlockedAtBackgroundRef.current;
 
-        if (hadBeenUnlocked && elapsed <= GRACE_PERIOD_MS) {
+        if (hadBeenUnlocked && timeInactive <= LOCK_AFTER_INACTIVE_MS) {
           setIsLocked(false);
           return;
         }
 
         setIsLocked(true);
-        if (!hadBeenUnlocked || elapsed > GRACE_PERIOD_MS) {
+
+        if (!hadBeenUnlocked || timeInactive > LOCK_AFTER_INACTIVE_MS) {
           void runAuthenticate();
         }
       }
