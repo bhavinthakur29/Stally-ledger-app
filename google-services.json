@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "537805896833",
+    "project_id": "stally-v1",
+    "storage_bucket": "stally-v1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:537805896833:android:befdbb895caea329296180",
+        "android_client_info": {
+          "package_name": "com.teksquad.stally"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGCUyJtjFk5edzhS4uvZGSlTBPoBFyM6E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

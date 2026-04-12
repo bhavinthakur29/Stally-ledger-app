@@ -1,0 +1,61 @@
+import {
+  collection,
+  doc,
+  runTransaction,
+  serverTimestamp,
+  updateDoc,
+} from 'firebase/firestore';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+
+import { getFirestoreDb, getFirebaseStorage } from '@/lib/firebase';
+import { PAYMENT_EXCEEDS_BALANCE_MESSAGE } from '@/lib/payment-errors';
+
+export async function addPaymentTransaction(params: {
+  userId: string;
+  productId: string;
+  amountRupees: number;
+  note?: string;
+  localImageUri?: string | null;
+}): Promise<{ transactionId: string }> {
+  const { userId, productId, amountRupees, note, localImageUri } = params;
+  if (!Number.isInteger(amountRupees) || amountRupees <= 0) {
+    throw new Error('Amount must be a positive whole number of rupees.');
+  }
+
+  const db = getFirestoreDb();
+  const productRef = doc(db, 'users', userId, 'products', productId);
+  const txColRef = collection(db, 'users', userId, 'products', productId, 'transactions');
+  const txRef = doc(txColRef);
+
+  await runTransaction(db, async (transaction) => {
+    const prodSnap = await transaction.get(productRef);
+    if (!prodSnap.exists()) {
+      throw new Error('Product not found.');
+    }
+    const data = prodSnap.data() as { remainingBalance?: number };
+    const current = typeof data.remainingBalance === 'number' ? data.remainingBalance : 0;
+    if (amountRupees > current) {
+      throw new Error(PAYMENT_EXCEEDS_BALANCE_MESSAGE);
+    }
+    const next = current - amountRupees;
+    transaction.update(productRef, { remainingBalance: next });
+    transaction.set(txRef, {
+      amount: amountRupees,
+      note: note?.trim() ? note.trim() : null,
+      receiptUrl: null,
+      createdAt: serverTimestamp(),
+    });
+  });
+
+  if (localImageUri) {
+    const storage = getFirebaseStorage();
+    const objectRef = ref(storage, `users/${userId}/receipts/${txRef.id}.jpg`);
+    const response = await fetch(localImageUri);
+    const blob = await response.blob();
+    await uploadBytes(objectRef, blob, { contentType: blob.type || 'image/jpeg' });
+    const url = await getDownloadURL(objectRef);
+    await updateDoc(txRef, { receiptUrl: url });
+  }
+
+  return { transactionId: txRef.id };
+}

@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Stally",
-    "slug": "Stally",
+    "slug": "stally",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -11,18 +11,28 @@
     "splash": {
       "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#0a0a0a"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Stally needs access to your photos to attach receipt images to transactions.",
+        "NSCameraUsageDescription": "Stally needs camera access to capture receipt photos for transactions."
+      }
     },
     "android": {
+      "package": "com.teksquad.stally",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#0a0a0a"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.POST_NOTIFICATIONS"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -30,10 +40,46 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow Stally to attach receipts from your library.",
+          "cameraPermission": "Allow Stally to capture receipt photos."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/icon.png",
+          "color": "#D97706",
+          "defaultChannel": "default"
+        }
+      ],
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Stally uses Face ID to unlock your ledger when you return to the app."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "firebase": {
+        "apiKey": "AIzaSyDVXnSTHY3JZuX9XoVrdhfW32Vx4-okvo4",
+        "authDomain": "stally-v1.firebaseapp.com",
+        "projectId": "stally-v1",
+        "storageBucket": "stally-v1.firebasestorage.app",
+        "messagingSenderId": "537805896833",
+        "appId": "1:537805896833:web:27d90e20745d07c7296180"
+      },
+      "router": {},
+      "eas": {
+        "projectId": "200290ef-af01-4c48-a611-82bc44a61733"
+      }
+    },
+    "owner": "teksquad"
   }
 }
