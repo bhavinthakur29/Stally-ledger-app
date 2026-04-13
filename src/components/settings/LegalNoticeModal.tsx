@@ -1,6 +1,5 @@
 import { X } from 'lucide-react-native';
-import { useColorScheme } from 'nativewind';
-import { Modal, Pressable, ScrollView, Text, View } from 'react-native';
+import { Modal, Pressable, ScrollView, Text, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { PrimaryButton } from '@/components/PrimaryButton';
@@ -15,8 +14,8 @@ type Props = {
 
 export function LegalNoticeModal({ visible, onClose, title, body }: Props) {
   const icons = useStallyIconColors();
-  const { colorScheme } = useColorScheme();
-  const isDark = colorScheme !== 'light';
+  const scheme = useColorScheme();
+  const isDark = scheme === 'dark';
 
   return (
     <Modal visible={visible} animationType="slide" presentationStyle="pageSheet">

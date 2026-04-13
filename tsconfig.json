@@ -2,8 +2,20 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
+    "moduleResolution": "bundler",
+    "customConditions": [
+      "react-native"
+    ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "react-native": [
+        "./node_modules/react-native/types/index.d.ts"
+      ],
+      "lucide-react-native": [
+        "./node_modules/lucide-react-native/dist/lucide-react-native.d.ts"
+      ]
     }
   },
   "include": [

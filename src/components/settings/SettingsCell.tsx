@@ -1,7 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import type { ReactNode } from 'react';
-import { useColorScheme } from 'nativewind';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, Text, useColorScheme, View } from 'react-native';
 
 import { hapticLight } from '@/lib/haptics';
 
@@ -22,8 +21,8 @@ export function SettingsCell({
   showChevron = true,
   isLast = false,
 }: Props) {
-  const { colorScheme } = useColorScheme();
-  const isDark = colorScheme !== 'light';
+  const scheme = useColorScheme();
+  const isDark = scheme === 'dark';
   const chevronColor = isDark ? 'rgba(255,255,255,0.45)' : 'rgba(68,64,60,0.45)';
 
   return (

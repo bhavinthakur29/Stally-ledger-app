@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Stally",
-    "slug": "stally",
+    "name": "TekTally",
+    "slug": "tektally",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "stally",
+    "scheme": "tektally",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
@@ -16,12 +16,12 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSPhotoLibraryUsageDescription": "Stally needs access to your photos to attach receipt images to transactions.",
-        "NSCameraUsageDescription": "Stally needs camera access to capture receipt photos for transactions."
+        "NSPhotoLibraryUsageDescription": "TekTally needs access to your photos to attach receipt images to transactions.",
+        "NSCameraUsageDescription": "TekTally needs camera access to capture receipt photos for transactions."
       }
     },
     "android": {
-      "package": "com.teksquad.stally",
+      "package": "com.teksquad.tektally",
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
@@ -44,8 +44,8 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "Allow Stally to attach receipts from your library.",
-          "cameraPermission": "Allow Stally to capture receipt photos."
+          "photosPermission": "Allow TekTally to attach receipts from your library.",
+          "cameraPermission": "Allow TekTally to capture receipt photos."
         }
       ],
       [
@@ -59,7 +59,7 @@
       [
         "expo-local-authentication",
         {
-          "faceIDPermission": "Stally uses Face ID to unlock your ledger when you return to the app."
+          "faceIDPermission": "TekTally uses Face ID to unlock your financial ledger when you return to the app."
         }
       ]
     ],

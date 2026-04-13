@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 
+import { GlassInputWrap } from '@/components/GlassInputWrap';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Screen } from '@/components/Screen';
 import { useAuthContext } from '@/context/auth-context';
@@ -59,20 +60,22 @@ export default function LoginScreen() {
       >
         <ScrollView
           keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', paddingHorizontal: 24, paddingVertical: 40 }}
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: 'center',
+            paddingHorizontal: 24,
+            paddingVertical: 40,
+          }}
         >
           <Text className="text-4xl font-bold tracking-tight text-ledger-ink dark:text-neutral-100">
-            Stally
+            TekTally
           </Text>
           <Text className="mt-2 text-base text-ledger-muted dark:text-neutral-500">
-            Track what you owe, payment by payment.
+            Track every rupee. Settle every balance.
           </Text>
 
           {!configured ? (
-            <View
-              className="mt-6 rounded-[24px] bg-amber-50 p-4 dark:bg-amber-950/40"
-              style={glass.card}
-            >
+            <View className="mt-6 rounded-[24px] bg-amber-50 p-4 dark:bg-amber-950/40" style={glass.card}>
               <Text className="text-sm font-medium text-amber-900 dark:text-amber-200">
                 Firebase not configured
               </Text>
@@ -86,28 +89,34 @@ export default function LoginScreen() {
           <Text className="mb-1.5 mt-8 text-xs font-medium uppercase tracking-wide text-ledger-muted dark:text-neutral-500">
             Email
           </Text>
-          <TextInput
-            className="rounded-2xl border border-ledger-border bg-parchment px-4 py-3.5 text-base text-ledger-ink dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-100"
-            autoCapitalize="none"
-            keyboardType="email-address"
-            autoComplete="email"
-            placeholder="you@example.com"
-            placeholderTextColor="#a8a29e"
-            value={email}
-            onChangeText={setEmail}
-          />
+          <GlassInputWrap>
+            <TextInput
+              className="bg-transparent px-4 py-3.5 text-base text-ledger-ink dark:text-neutral-100"
+              autoCapitalize="none"
+              keyboardType="email-address"
+              autoComplete="email"
+              placeholder="you@example.com"
+              placeholderTextColor="#a8a29e"
+              value={email}
+              onChangeText={setEmail}
+              underlineColorAndroid="transparent"
+            />
+          </GlassInputWrap>
 
           <Text className="mb-1.5 mt-4 text-xs font-medium uppercase tracking-wide text-ledger-muted dark:text-neutral-500">
             Password
           </Text>
-          <TextInput
-            className="rounded-2xl border border-ledger-border bg-parchment px-4 py-3.5 text-base text-ledger-ink dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-100"
-            secureTextEntry
-            placeholder="••••••••"
-            placeholderTextColor="#a8a29e"
-            value={password}
-            onChangeText={setPassword}
-          />
+          <GlassInputWrap>
+            <TextInput
+              className="bg-transparent px-4 py-3.5 text-base text-ledger-ink dark:text-neutral-100"
+              secureTextEntry
+              placeholder="••••••••"
+              placeholderTextColor="#a8a29e"
+              value={password}
+              onChangeText={setPassword}
+              underlineColorAndroid="transparent"
+            />
+          </GlassInputWrap>
 
           {error ? (
             <Text className="mt-4 text-sm text-red-600 dark:text-red-400">{error}</Text>
@@ -133,6 +142,14 @@ export default function LoginScreen() {
               {mode === 'login' ? 'Need an account? Sign up' : 'Already have an account? Sign in'}
             </Text>
           </Pressable>
+
+          <Text className="mt-10 px-2 text-center text-[11px] leading-[16px] text-ledger-muted dark:text-neutral-500">
+            <Text className="font-medium text-ledger-ink/75 dark:text-neutral-400">TekTally</Text>
+            {' · '}
+            <Text className="text-ledger-muted/85 dark:text-neutral-500/85">
+              v1.0 · by TekSquad · 2026
+            </Text>
+          </Text>
         </ScrollView>
       </KeyboardAvoidingView>
     </Screen>

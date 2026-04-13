@@ -1,18 +1,18 @@
 import { BlurView } from 'expo-blur';
 import {
-  SecurityLevel,
   authenticateAsync,
   getEnrolledLevelAsync,
+  SecurityLevel,
 } from 'expo-local-authentication';
-import { useColorScheme } from 'nativewind';
-import { useCallback, useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   AppState,
   type AppStateStatus,
   Platform,
   StyleSheet,
   Text,
+  useColorScheme,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -29,8 +29,8 @@ type Props = {
 
 export function SecurityProvider({ children }: Props) {
   const { user } = useAuthContext();
-  const { colorScheme } = useColorScheme();
-  const isDark = colorScheme !== 'light';
+  const scheme = useColorScheme();
+  const isDark = scheme === 'dark';
 
   const [appState, setAppState] = useState<AppStateStatus>(AppState.currentState);
   const prevAppStateRef = useRef<AppStateStatus>(AppState.currentState);
@@ -59,7 +59,7 @@ export function SecurityProvider({ children }: Props) {
       }
 
       const result = await authenticateAsync({
-        promptMessage: 'Unlock Stally',
+        promptMessage: 'Unlock TekTally',
         cancelLabel: 'Cancel',
         fallbackLabel: 'Use device PIN',
         disableDeviceFallback: false,
@@ -159,14 +159,13 @@ export function SecurityProvider({ children }: Props) {
           >
             <View className="flex-1 items-center justify-center px-8">
               <View
-                className={`mb-6 items-center justify-center rounded-[28px] border px-10 py-6 ${
-                  isDark
-                    ? 'border-emerald-500/35 bg-emerald-500/10'
-                    : 'border-amber-600/30 bg-amber-600/10'
-                }`}
+                className={`mb-6 items-center justify-center rounded-[28px] border px-10 py-6 ${isDark
+                  ? 'border-emerald-500/35 bg-emerald-500/10'
+                  : 'border-amber-600/30 bg-amber-600/10'
+                  }`}
               >
                 <Text className="text-center text-4xl font-bold tracking-tight text-ledger-ink dark:text-neutral-100">
-                  Stally
+                  TekTally
                 </Text>
                 <Text className="mt-2 text-center text-xs font-semibold uppercase tracking-[0.2em] text-amber-800/80 dark:text-emerald-400/90">
                   Ledger

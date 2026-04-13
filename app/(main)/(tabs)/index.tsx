@@ -1,14 +1,14 @@
 import { FlashList } from '@shopify/flash-list';
-import { ChevronDown, ChevronUp, LogOut, Plus, Receipt } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
+import { ChevronDown, ChevronUp, LogOut, Plus, Receipt } from 'lucide-react-native';
 import { useMemo, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 
 import { AddProductModal } from '@/components/AddProductModal';
-import { ProfileHeader } from '@/components/ProfileHeader';
-import { TotalOwedCard } from '@/components/TotalOwedCard';
 import { ProductCard } from '@/components/ProductCard';
+import { ProfileHeader } from '@/components/ProfileHeader';
 import { Screen } from '@/components/Screen';
+import { TotalOwedCard } from '@/components/TotalOwedCard';
 import { useAuthContext } from '@/context/auth-context';
 import { useProducts } from '@/hooks/useProducts';
 import { useStallyIconColors } from '@/hooks/useStallyIconColors';
@@ -65,8 +65,8 @@ export default function DashboardScreen() {
         <ProfileHeader />
         <View className="flex-row items-center justify-between pb-2 pt-1">
           <View>
-            <Text className="text-2xl font-bold text-ledger-ink dark:text-neutral-100">Stally</Text>
-            <Text className="text-sm text-ledger-muted dark:text-neutral-500">Your balances</Text>
+            <Text className="text-2xl font-bold text-ledger-ink dark:text-neutral-100">TekTally</Text>
+            <Text className="text-sm text-ledger-muted dark:text-neutral-500">Your financial ledger</Text>
           </View>
           <View className="flex-row gap-2">
             <Pressable

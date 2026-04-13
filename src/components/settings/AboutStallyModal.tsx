@@ -1,8 +1,7 @@
 import Constants from 'expo-constants';
 import * as Linking from 'expo-linking';
 import { X } from 'lucide-react-native';
-import { useColorScheme } from 'nativewind';
-import { Modal, Pressable, Text, View } from 'react-native';
+import { Modal, Pressable, Text, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { PrimaryButton } from '@/components/PrimaryButton';
@@ -17,8 +16,8 @@ type Props = {
 
 export function AboutStallyModal({ visible, onClose }: Props) {
   const icons = useStallyIconColors();
-  const { colorScheme } = useColorScheme();
-  const isDark = colorScheme !== 'light';
+  const scheme = useColorScheme();
+  const isDark = scheme === 'dark';
   const version = Constants.expoConfig?.version ?? '—';
 
   async function openTekSquad() {
@@ -34,7 +33,7 @@ export function AboutStallyModal({ visible, onClose }: Props) {
       >
         <View className="flex-row items-center justify-between border-b border-ledger-border px-4 py-3 dark:border-neutral-800">
           <Text className="text-lg font-semibold text-ledger-ink dark:text-neutral-100">
-            About Stally
+            About TekTally
           </Text>
           <Pressable
             onPress={onClose}
@@ -46,7 +45,7 @@ export function AboutStallyModal({ visible, onClose }: Props) {
         </View>
 
         <View className="flex-1 px-5 pt-6">
-          <Text className="text-2xl font-bold text-ledger-ink dark:text-neutral-100">Stally</Text>
+          <Text className="text-2xl font-bold text-ledger-ink dark:text-neutral-100">TekTally</Text>
           <Text className="mt-2 text-sm text-ledger-muted dark:text-neutral-500">
             Your personal ledger for what you owe.
           </Text>

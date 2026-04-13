@@ -1,7 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useColorScheme } from 'nativewind';
 import { useState } from 'react';
-import { Alert, ScrollView, Text, View } from 'react-native';
+import { Alert, ScrollView, Text, useColorScheme, View } from 'react-native';
 
 import { Screen } from '@/components/Screen';
 import { AboutStallyModal } from '@/components/settings/AboutStallyModal';
@@ -9,22 +8,19 @@ import { LegalNoticeModal } from '@/components/settings/LegalNoticeModal';
 import { SettingsCell } from '@/components/settings/SettingsCell';
 import { SettingsGlassCard } from '@/components/settings/SettingsGlassCard';
 import { SettingsProfileCard } from '@/components/settings/SettingsProfileCard';
-import { SettingsSwitchRow } from '@/components/settings/SettingsSwitchRow';
-import { useThemePreference } from '@/context/theme-preference-context';
 import { hapticLight } from '@/lib/haptics';
 
 const TERMS_PLACEHOLDER =
-  'Terms of Service for Stally will appear here. This is placeholder copy until legal pages are published.';
+  'Terms of Service for TekTally will appear here. This is placeholder copy until legal pages are published.';
 
 const PRIVACY_PLACEHOLDER =
-  'Privacy Policy for Stally will appear here. This is placeholder copy until legal pages are published.';
+  'Privacy Policy for TekTally will appear here. This is placeholder copy until legal pages are published.';
 
 export default function SettingsScreen() {
-  const { colorScheme } = useColorScheme();
-  const isDark = colorScheme !== 'light';
+  const scheme = useColorScheme();
+  const isDark = scheme === 'dark';
   const iconMuted = isDark ? 'rgba(255,255,255,0.72)' : 'rgba(68,64,60,0.85)';
 
-  const { darkModeEnabled, setDarkModeEnabled } = useThemePreference();
   const [aboutOpen, setAboutOpen] = useState(false);
   const [termsOpen, setTermsOpen] = useState(false);
   const [privacyOpen, setPrivacyOpen] = useState(false);
@@ -47,7 +43,7 @@ export default function SettingsScreen() {
       >
         <Text className="text-2xl font-bold text-ledger-ink dark:text-neutral-100">Settings</Text>
         <Text className="mt-1 text-sm text-ledger-muted dark:text-neutral-500">
-          Profile, appearance, and legal
+          Profile, security, and legal
         </Text>
 
         <Text className="mb-2 mt-8 text-xs font-semibold uppercase tracking-widest text-ledger-muted dark:text-neutral-500">
@@ -59,14 +55,6 @@ export default function SettingsScreen() {
           Preferences
         </Text>
         <SettingsGlassCard>
-          <SettingsSwitchRow
-            variant="theme"
-            icon="moon-outline"
-            title="Dark Mode"
-            subtitle="Frosted glass light theme when off"
-            value={darkModeEnabled}
-            onValueChange={setDarkModeEnabled}
-          />
           <SettingsCell
             icon={<Ionicons name="finger-print-outline" size={22} color={iconMuted} />}
             title="Security"

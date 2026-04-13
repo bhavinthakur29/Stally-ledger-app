@@ -10,7 +10,7 @@ export default function NotFoundScreen() {
           This screen does not exist.
         </Text>
         <Link href="/" className="mt-6">
-          <Text className="text-base text-amber-700 dark:text-emerald-400">Back to Stally</Text>
+          <Text className="text-base text-amber-700 dark:text-emerald-400">Back to TekTally</Text>
         </Link>
       </View>
     </>

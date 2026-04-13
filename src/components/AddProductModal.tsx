@@ -57,7 +57,7 @@ export function AddProductModal({ visible, onClose, onSubmit }: Props) {
             Name
           </Text>
           <TextInput
-            className="rounded-2xl border border-ledger-border bg-parchment px-4 py-3.5 text-base text-ledger-ink dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-100"
+            className="rounded-2xl border border-ledger-border bg-transparent px-4 py-3.5 text-base text-ledger-ink dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-100"
             placeholder="e.g. MacBook EMI"
             placeholderTextColor="#a8a29e"
             value={name}

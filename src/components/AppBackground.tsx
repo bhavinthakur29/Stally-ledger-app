@@ -1,7 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { useColorScheme } from 'nativewind';
+import { memo, useEffect } from 'react';
+import { StyleSheet, useColorScheme, View } from 'react-native';
 import Animated, {
   Easing,
   interpolateColor,
@@ -25,10 +24,11 @@ const TIMING = {
 
 /**
  * Full-screen gradients + soft blobs; colors ease over ~1s when theme changes.
+ * Memoized so parent screens (e.g. profile text inputs) don’t restart animations on each keystroke.
  */
-export function AppBackground() {
-  const { colorScheme } = useColorScheme();
-  const isDark = colorScheme !== 'light';
+function AppBackgroundInner() {
+  const scheme = useColorScheme();
+  const isDark = scheme === 'dark';
 
   const t = useSharedValue(isDark ? 0 : 1);
 
@@ -113,6 +113,8 @@ export function AppBackground() {
     </View>
   );
 }
+
+export const AppBackground = memo(AppBackgroundInner);
 
 const styles = StyleSheet.create({
   root: {

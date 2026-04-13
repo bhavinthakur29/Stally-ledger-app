@@ -1,72 +1,132 @@
 import { BlurView } from 'expo-blur';
-import { useColorScheme } from 'nativewind';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, useColorScheme, View } from 'react-native';
 
 import { CurrencyText } from '@/components/CurrencyText';
 import { useGlassBorder } from '@/lib/glass-styles';
 
 const NEON_SHADOW_DARK = '#34d399';
 const NEON_SHADOW_LIGHT = '#d97706';
+const CARD_RADIUS = 24;
+
+const CURRENCY_TEXT_SHADOW = {
+  textShadowColor: 'rgba(0, 0, 0, 0.15)',
+  textShadowOffset: { width: 0, height: 1 },
+  textShadowRadius: 2,
+} as const;
 
 type Props = {
   totalRupees: number;
 };
 
 export function TotalOwedCard({ totalRupees }: Props) {
-  const { colorScheme } = useColorScheme();
-  const isDark = colorScheme !== 'light';
+  const scheme = useColorScheme();
+  const isDark = scheme === 'dark';
+  const glass = useGlassBorder();
 
   const shadowColor = isDark ? NEON_SHADOW_DARK : NEON_SHADOW_LIGHT;
-  const glass = useGlassBorder();
+  /** Stronger tint so frosted read is visible even when blur is subtle (Android fallback / low intensity). */
+  const glassTint = isDark ? 'rgba(255, 255, 255, 0.12)' : 'rgba(255, 255, 255, 0.45)';
+  const labelColor = isDark ? '#34d399' : '#92400e';
+
+  const blurAndroid =
+    Platform.OS === 'android'
+      ? ({
+        experimentalBlurMethod: 'dimezisBlurView' as const,
+        blurReductionFactor: 3,
+      } as const)
+      : {};
 
   return (
     <View
-      className="mt-4 overflow-hidden rounded-[24px]"
       style={[
-        styles.card,
-        glass.card,
+        styles.shadowOuter,
         {
           shadowColor,
-          shadowOffset: { width: 0, height: 4 },
-          shadowOpacity: isDark ? 0.42 : 0.35,
-          shadowRadius: 18,
-          elevation: 14,
+          /** Must stay transparent so BlurView samples the gradient behind the card (not a solid parent). */
+          backgroundColor: 'transparent',
         },
       ]}
     >
-      {Platform.OS === 'web' ? (
+      <View
+        style={[
+          styles.innerClip,
+          glass.card,
+          {
+            borderRadius: CARD_RADIUS,
+            overflow: 'hidden',
+            backgroundColor: 'transparent',
+            ...Platform.select({
+              android: { elevation: 14 },
+              default: {},
+            }),
+          },
+        ]}
+      >
+        <BlurView
+          intensity={Platform.OS === 'web' ? 55 : isDark ? 52 : 62}
+          tint={isDark ? 'dark' : 'light'}
+          pointerEvents="none"
+          style={[StyleSheet.absoluteFill, styles.blurClip]}
+          {...blurAndroid}
+        />
         <View
           pointerEvents="none"
           style={[
             StyleSheet.absoluteFill,
-            {
-              backgroundColor: isDark ? 'rgba(6,78,59,0.35)' : 'rgba(254,243,199,0.55)',
-            },
+            styles.blurClip,
+            { backgroundColor: 'transparent' },
           ]}
         />
-      ) : (
-        <BlurView
-          intensity={40}
-          tint={isDark ? 'dark' : 'light'}
-          style={StyleSheet.absoluteFill}
-          pointerEvents="none"
-        />
-      )}
-      <View className="relative z-10 px-5 py-4">
-        <Text className="text-sm font-medium uppercase tracking-wide text-amber-800/90 dark:text-emerald-400/95">
-          Total owed
-        </Text>
-        <CurrencyText
-          rupees={totalRupees}
-          className="mt-1 text-3xl font-bold text-amber-800 dark:text-emerald-400"
-        />
+        <View style={styles.content}>
+          <Text style={[styles.label, { color: labelColor, backgroundColor: 'transparent' }]}>
+            Total owed
+          </Text>
+          <CurrencyText
+            rupees={totalRupees}
+            style={[
+              styles.amount,
+              CURRENCY_TEXT_SHADOW,
+              { color: labelColor, backgroundColor: 'transparent' },
+            ]}
+          />
+        </View>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
+  shadowOuter: {
+    marginTop: 16,
+    borderRadius: CARD_RADIUS,
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.28,
+    shadowRadius: 22,
+  },
+  innerClip: {
     position: 'relative',
+  },
+  blurClip: {
+    borderRadius: CARD_RADIUS,
+  },
+  content: {
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    zIndex: 10,
+    backgroundColor: 'transparent',
+  },
+  label: {
+    fontSize: 12,
+    fontWeight: '500',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    textAlign: 'center',
+  },
+  amount: {
+    marginTop: 4,
+    fontSize: 28,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });

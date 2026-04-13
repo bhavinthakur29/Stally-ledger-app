@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
-import { useColorScheme } from 'nativewind';
+import { useColorScheme } from 'react-native';
 
 export function useStallyIconColors() {
-  const { colorScheme } = useColorScheme();
-  const isDark = colorScheme !== 'light';
+  const scheme = useColorScheme();
+  const isDark = scheme === 'dark';
   return useMemo(() => {
     return {
       isDark,

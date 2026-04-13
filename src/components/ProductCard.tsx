@@ -21,7 +21,7 @@ export function ProductCard({ product, onPress, settled = false }: Props) {
     <Pressable
       onPress={onPress}
       style={glass.card}
-      className={`mb-3 flex-row items-center justify-between rounded-[24px] bg-parchment/55 px-5 py-4 active:opacity-90 dark:bg-neutral-900/45 ${settled ? 'opacity-75' : ''}`}
+      className={`mb-3 flex-row items-center justify-between rounded-[24px] bg-transparent px-5 py-4 active:opacity-90 dark:bg-transparent ${settled ? 'opacity-75' : ''}`}
     >
       <View className="flex-1 pr-3">
         <Text

@@ -14,6 +14,7 @@ import {
   View,
 } from 'react-native';
 
+import { PaymentSavingModal } from '@/components/PaymentSavingModal';
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Screen } from '@/components/Screen';
 import { useAuthContext } from '@/context/auth-context';
@@ -21,9 +22,9 @@ import { useProducts } from '@/hooks/useProducts';
 import { useStallyIconColors } from '@/hooks/useStallyIconColors';
 import { parseRupeesInput } from '@/lib/currency';
 import { useGlassBorder } from '@/lib/glass-styles';
-import { hapticSuccess } from '@/lib/haptics';
+import { hapticLight, hapticSuccess } from '@/lib/haptics';
 import { PAYMENT_EXCEEDS_BALANCE_MESSAGE } from '@/lib/payment-errors';
-import { addPaymentTransaction } from '@/lib/transactions';
+import { addPaymentTransaction, type PaymentSavingPhase } from '@/lib/transactions';
 import type { ProductDoc } from '@/types';
 
 export default function TransactionModalScreen() {
@@ -40,7 +41,7 @@ export default function TransactionModalScreen() {
   const [amountRaw, setAmountRaw] = useState('');
   const [note, setNote] = useState('');
   const [imageUri, setImageUri] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState<'idle' | PaymentSavingPhase>('idle');
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -125,7 +126,7 @@ export default function TransactionModalScreen() {
       setError(PAYMENT_EXCEEDS_BALANCE_MESSAGE);
       return;
     }
-    setLoading(true);
+    setUploadStatus(imageUri ? 'compressing' : 'finishing');
     try {
       await addPaymentTransaction({
         userId: user.uid,
@@ -133,13 +134,19 @@ export default function TransactionModalScreen() {
         amountRupees: amount,
         note: note.trim() || undefined,
         localImageUri: imageUri,
+        onPhase: (phase) => {
+          setUploadStatus(phase);
+          if (phase === 'compressing') {
+            void hapticLight();
+          }
+        },
       });
       await hapticSuccess();
       router.back();
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Could not save payment.');
     } finally {
-      setLoading(false);
+      setUploadStatus('idle');
     }
   }
 
@@ -238,11 +245,15 @@ export default function TransactionModalScreen() {
           <PrimaryButton
             title="Save payment"
             onPress={submit}
-            loading={loading}
-            disabled={amountExceedsBalance}
+            disabled={amountExceedsBalance || uploadStatus !== 'idle'}
           />
         </View>
       </ScrollView>
+
+      <PaymentSavingModal
+        visible={uploadStatus !== 'idle'}
+        phase={uploadStatus === 'idle' ? 'finishing' : uploadStatus}
+      />
 
       <Modal visible={productMenuOpen} transparent animationType="slide">
         <Pressable

@@ -9,15 +9,13 @@ import { ThemeProvider } from '@react-navigation/native';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import { ActivityIndicator, View } from 'react-native';
-import { useColorScheme } from 'nativewind';
+import { ActivityIndicator, useColorScheme, View } from 'react-native';
 import 'react-native-reanimated';
 
 import { AppBackground } from '@/components/AppBackground';
 import { PushNotificationsRoot } from '@/components/PushNotificationsRoot';
 import { SecurityProvider } from '@/components/SecurityProvider';
 import { AuthProvider, useAuthContext } from '@/context/auth-context';
-import { ThemePreferenceProvider } from '@/context/theme-preference-context';
 import { navigationThemeForScheme } from '@/lib/navigation-theme';
 
 export { ErrorBoundary } from 'expo-router';
@@ -32,8 +30,8 @@ function AuthGate({ children }: { children: React.ReactNode }) {
   const { user, loading, configured } = useAuthContext();
   const segments = useSegments();
   const router = useRouter();
-  const { colorScheme } = useColorScheme();
-  const isDark = colorScheme !== 'light';
+  const scheme = useColorScheme();
+  const isDark = scheme === 'dark';
 
   useEffect(() => {
     if (loading) return;
@@ -80,8 +78,8 @@ function RootStack() {
 }
 
 function ThemedRoot() {
-  const { colorScheme } = useColorScheme();
-  const navigationTheme = navigationThemeForScheme(colorScheme === 'light' ? 'light' : 'dark');
+  const scheme = useColorScheme();
+  const navigationTheme = navigationThemeForScheme(scheme === 'dark' ? 'dark' : 'light');
 
   return (
     <ThemeProvider value={navigationTheme}>
@@ -108,9 +106,5 @@ export default function RootLayout() {
     return null;
   }
 
-  return (
-    <ThemePreferenceProvider>
-      <ThemedRoot />
-    </ThemePreferenceProvider>
-  );
+  return <ThemedRoot />;
 }
