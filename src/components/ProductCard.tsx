@@ -3,7 +3,7 @@ import { Pressable, Text, View } from 'react-native';
 
 import { CurrencyText } from '@/components/CurrencyText';
 import { useStallyIconColors } from '@/hooks/useStallyIconColors';
-import { glassCardBorder } from '@/lib/glass-styles';
+import { useGlassBorder } from '@/lib/glass-styles';
 import type { ProductDoc } from '@/types';
 
 type Props = {
@@ -15,11 +15,12 @@ type Props = {
 
 export function ProductCard({ product, onPress, settled = false }: Props) {
   const icons = useStallyIconColors();
+  const glass = useGlassBorder();
 
   return (
     <Pressable
       onPress={onPress}
-      style={glassCardBorder}
+      style={glass.card}
       className={`mb-3 flex-row items-center justify-between rounded-[24px] bg-parchment/55 px-5 py-4 active:opacity-90 dark:bg-neutral-900/45 ${settled ? 'opacity-75' : ''}`}
     >
       <View className="flex-1 pr-3">

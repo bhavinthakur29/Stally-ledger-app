@@ -3,7 +3,7 @@ import { Modal, Text, TextInput, View } from 'react-native';
 
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { parseRupeesInput } from '@/lib/currency';
-import { glassCardBorder } from '@/lib/glass-styles';
+import { useGlassBorder } from '@/lib/glass-styles';
 
 type Props = {
   visible: boolean;
@@ -12,6 +12,7 @@ type Props = {
 };
 
 export function AddProductModal({ visible, onClose, onSubmit }: Props) {
+  const glass = useGlassBorder();
   const [name, setName] = useState('');
   const [owedRaw, setOwedRaw] = useState('');
   const [loading, setLoading] = useState(false);
@@ -46,7 +47,7 @@ export function AddProductModal({ visible, onClose, onSubmit }: Props) {
       <View className="flex-1 justify-end bg-stone-900/50 dark:bg-black/60">
         <View
           className="rounded-t-[24px] border-b-0 bg-cream px-5 pb-10 pt-6 dark:bg-neutral-950"
-          style={glassCardBorder}
+          style={glass.card}
         >
           <Text className="text-xl font-bold text-ledger-ink dark:text-neutral-100">New product</Text>
           <Text className="mt-1 text-sm text-ledger-muted dark:text-neutral-500">

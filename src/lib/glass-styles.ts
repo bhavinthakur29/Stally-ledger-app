@@ -1,12 +1,18 @@
+import { useMemo } from 'react';
+import { useColorScheme } from 'nativewind';
 import type { TextStyle, ViewStyle } from 'react-native';
 
-const glassBorder = {
-  borderWidth: 1,
-  borderColor: 'rgba(255, 255, 255, 0.1)',
-} as const;
+const GLASS_BORDER_DARK = 'rgba(255, 255, 255, 0.1)';
+const GLASS_BORDER_LIGHT = 'rgba(0, 0, 0, 0.05)';
 
-/** Shared glassmorphism border for views / pressables. */
-export const glassCardBorder: ViewStyle = glassBorder;
+/** Theme-aware glass border (light rim in dark mode, soft edge in light mode). */
+export function useGlassBorder(): { card: ViewStyle; input: TextStyle } {
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme !== 'light';
 
-/** Same border for `TextInput` (RN types separate `TextStyle` / `ViewStyle`). */
-export const glassInputBorder: TextStyle = glassBorder;
+  return useMemo(() => {
+    const borderColor = isDark ? GLASS_BORDER_DARK : GLASS_BORDER_LIGHT;
+    const base = { borderWidth: 1 as const, borderColor };
+    return { card: base, input: base };
+  }, [isDark]);
+}

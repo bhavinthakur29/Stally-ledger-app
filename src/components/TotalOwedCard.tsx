@@ -3,7 +3,7 @@ import { useColorScheme } from 'nativewind';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 
 import { CurrencyText } from '@/components/CurrencyText';
-import { glassCardBorder } from '@/lib/glass-styles';
+import { useGlassBorder } from '@/lib/glass-styles';
 
 const NEON_SHADOW_DARK = '#34d399';
 const NEON_SHADOW_LIGHT = '#d97706';
@@ -17,13 +17,14 @@ export function TotalOwedCard({ totalRupees }: Props) {
   const isDark = colorScheme !== 'light';
 
   const shadowColor = isDark ? NEON_SHADOW_DARK : NEON_SHADOW_LIGHT;
+  const glass = useGlassBorder();
 
   return (
     <View
       className="mt-4 overflow-hidden rounded-[24px]"
       style={[
         styles.card,
-        glassCardBorder,
+        glass.card,
         {
           shadowColor,
           shadowOffset: { width: 0, height: 4 },

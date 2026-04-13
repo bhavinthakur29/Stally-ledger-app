@@ -12,7 +12,7 @@ import { Screen } from '@/components/Screen';
 import { useAuthContext } from '@/context/auth-context';
 import { useProducts } from '@/hooks/useProducts';
 import { useStallyIconColors } from '@/hooks/useStallyIconColors';
-import { glassCardBorder } from '@/lib/glass-styles';
+import { useGlassBorder } from '@/lib/glass-styles';
 import { hapticLight, hapticSuccess } from '@/lib/haptics';
 import { addProduct } from '@/lib/products';
 import type { ProductDoc } from '@/types';
@@ -25,6 +25,7 @@ const SETTLED_HEADER_HEIGHT = 52;
 export default function DashboardScreen() {
   const router = useRouter();
   const icons = useStallyIconColors();
+  const glass = useGlassBorder();
   const { user, logOut, configured } = useAuthContext();
   const { products, activeProducts, settledProducts, totalOwed, loading, error } = useProducts(
     user?.uid
@@ -158,7 +159,7 @@ export default function DashboardScreen() {
                   accessibilityState={{ expanded: settledOpen }}
                   onPress={toggleSettled}
                   className="flex-row items-center justify-between rounded-2xl bg-parchment/60 px-4 py-3.5 active:bg-stone-200/70 dark:bg-neutral-900/50 dark:active:bg-neutral-800"
-                  style={[glassCardBorder, { minHeight: SETTLED_HEADER_HEIGHT }]}
+                  style={[glass.card, { minHeight: SETTLED_HEADER_HEIGHT }]}
                 >
                   <View>
                     <Text className="text-sm font-semibold text-ledger-ink dark:text-neutral-100">

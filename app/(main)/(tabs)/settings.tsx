@@ -60,6 +60,7 @@ export default function SettingsScreen() {
         </Text>
         <SettingsGlassCard>
           <SettingsSwitchRow
+            variant="theme"
             icon="moon-outline"
             title="Dark Mode"
             subtitle="Frosted glass light theme when off"

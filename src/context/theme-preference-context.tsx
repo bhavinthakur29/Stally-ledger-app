@@ -10,6 +10,8 @@ import {
 } from 'react';
 import { useColorScheme as useNativeWindColorScheme } from 'nativewind';
 
+import { hapticLight } from '@/lib/haptics';
+
 const STORAGE_KEY = 'stally.theme';
 
 type ThemePreferenceContextValue = {
@@ -22,6 +24,7 @@ type ThemePreferenceContextValue = {
 
 const ThemePreferenceContext = createContext<ThemePreferenceContextValue | null>(null);
 
+/** Persists light/dark; NativeWind `setColorScheme` keeps UI + expo-router appearance in sync. */
 export function ThemePreferenceProvider({ children }: { children: ReactNode }) {
   const { colorScheme, setColorScheme } = useNativeWindColorScheme();
 
@@ -47,6 +50,7 @@ export function ThemePreferenceProvider({ children }: { children: ReactNode }) {
 
   const setDarkModeEnabled = useCallback(
     (enabled: boolean) => {
+      void hapticLight();
       const next = enabled ? 'dark' : 'light';
       setColorScheme(next);
       void AsyncStorage.setItem(STORAGE_KEY, next);

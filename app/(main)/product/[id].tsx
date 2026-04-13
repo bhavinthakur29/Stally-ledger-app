@@ -11,7 +11,7 @@ import { useAuthContext } from '@/context/auth-context';
 import { useProducts } from '@/hooks/useProducts';
 import { useProductTransactions } from '@/hooks/useProductTransactions';
 import { useStallyIconColors } from '@/hooks/useStallyIconColors';
-import { glassCardBorder } from '@/lib/glass-styles';
+import { useGlassBorder } from '@/lib/glass-styles';
 import { hapticLight } from '@/lib/haptics';
 import type { TransactionDoc } from '@/types';
 
@@ -45,13 +45,14 @@ export default function ProductDetailScreen() {
     () => products.find((p) => p.id === productId),
     [products, productId]
   );
+  const glass = useGlassBorder();
 
   return (
     <Screen>
       <View className="flex-1 px-4 pt-2">
         <View
           className="rounded-[24px] bg-parchment/90 px-5 py-4 dark:bg-neutral-900/80"
-          style={glassCardBorder}
+          style={glass.card}
         >
           <View className="flex-row items-start justify-between gap-3">
             <View className="min-w-0 flex-1">
@@ -104,7 +105,7 @@ export default function ProductDetailScreen() {
           renderItem={({ item }) => (
             <View
               className="mb-2 flex-row items-center rounded-[24px] bg-parchment/70 px-4 py-3 dark:bg-neutral-900/60"
-              style={glassCardBorder}
+              style={glass.card}
             >
               <View className="min-w-0 flex-1">
                 <CurrencyText

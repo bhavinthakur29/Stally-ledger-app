@@ -20,7 +20,7 @@ import { useAuthContext } from '@/context/auth-context';
 import { useProducts } from '@/hooks/useProducts';
 import { useStallyIconColors } from '@/hooks/useStallyIconColors';
 import { parseRupeesInput } from '@/lib/currency';
-import { glassCardBorder, glassInputBorder } from '@/lib/glass-styles';
+import { useGlassBorder } from '@/lib/glass-styles';
 import { hapticSuccess } from '@/lib/haptics';
 import { PAYMENT_EXCEEDS_BALANCE_MESSAGE } from '@/lib/payment-errors';
 import { addPaymentTransaction } from '@/lib/transactions';
@@ -29,6 +29,7 @@ import type { ProductDoc } from '@/types';
 export default function TransactionModalScreen() {
   const router = useRouter();
   const icons = useStallyIconColors();
+  const glass = useGlassBorder();
   const params = useLocalSearchParams<{ productId?: string }>();
   const preselect = typeof params.productId === 'string' ? params.productId : undefined;
   const { user, configured } = useAuthContext();
@@ -173,7 +174,7 @@ export default function TransactionModalScreen() {
         <TextInput
           className="rounded-2xl bg-parchment px-4 py-3.5 text-base text-ledger-ink dark:bg-neutral-900 dark:text-neutral-100"
           style={[
-            glassInputBorder,
+            glass.input,
             amountExceedsBalance ? { borderColor: '#ef4444' } : null,
           ]}
           placeholder="e.g. 5000"
@@ -196,7 +197,7 @@ export default function TransactionModalScreen() {
         </Text>
         <TextInput
           className="min-h-[88px] rounded-2xl bg-parchment px-4 py-3.5 text-base text-ledger-ink dark:bg-neutral-900 dark:text-neutral-100"
-          style={glassInputBorder}
+          style={glass.input}
           placeholder="Reference, bank, etc."
           placeholderTextColor="#a8a29e"
           multiline
@@ -211,7 +212,7 @@ export default function TransactionModalScreen() {
           <Pressable
             onPress={openReceiptPicker}
             className="flex-row items-center gap-2 rounded-2xl bg-parchment px-4 py-3 active:bg-stone-200/80 dark:bg-neutral-900 dark:active:bg-neutral-800"
-            style={glassCardBorder}
+            style={glass.card}
           >
             <ImagePlus color={icons.muted} size={20} />
             <Text className="text-sm font-medium text-stone-800 dark:text-neutral-200">

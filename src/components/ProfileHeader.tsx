@@ -4,7 +4,7 @@ import { useColorScheme } from 'nativewind';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 
 import { useAuthContext } from '@/context/auth-context';
-import { glassCardBorder } from '@/lib/glass-styles';
+import { useGlassBorder } from '@/lib/glass-styles';
 import { getTimeOfDayGreeting } from '@/lib/greeting';
 import { getUserGreetingName } from '@/lib/user-display-name';
 
@@ -20,9 +20,10 @@ export function ProfileHeader() {
   const name = getUserGreetingName(user);
 
   const iconColor = isDark ? 'rgba(255,255,255,0.85)' : 'rgba(28,25,23,0.75)';
+  const glass = useGlassBorder();
 
   return (
-    <View className="mb-4 overflow-hidden rounded-[24px]" style={[styles.card, glassCardBorder]}>
+    <View className="mb-4 overflow-hidden rounded-[24px]" style={[styles.card, glass.card]}>
       {Platform.OS === 'web' ? (
         <View
           pointerEvents="none"
@@ -44,7 +45,7 @@ export function ProfileHeader() {
       <View className="relative z-10 flex-row items-center gap-4 px-5 py-4">
         <View
           className="h-14 w-14 items-center justify-center rounded-full bg-white/10"
-          style={glassCardBorder}
+          style={glass.card}
         >
           <Ionicons name="person" size={30} color={iconColor} />
         </View>

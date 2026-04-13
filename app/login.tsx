@@ -12,11 +12,12 @@ import {
 
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Screen } from '@/components/Screen';
-import { glassCardBorder } from '@/lib/glass-styles';
 import { useAuthContext } from '@/context/auth-context';
+import { useGlassBorder } from '@/lib/glass-styles';
 import { hapticSuccess } from '@/lib/haptics';
 
 export default function LoginScreen() {
+  const glass = useGlassBorder();
   const { signIn, signUp, configured } = useAuthContext();
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [email, setEmail] = useState('');
@@ -70,7 +71,7 @@ export default function LoginScreen() {
           {!configured ? (
             <View
               className="mt-6 rounded-[24px] bg-amber-50 p-4 dark:bg-amber-950/40"
-              style={glassCardBorder}
+              style={glass.card}
             >
               <Text className="text-sm font-medium text-amber-900 dark:text-amber-200">
                 Firebase not configured
