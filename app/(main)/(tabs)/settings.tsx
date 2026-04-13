@@ -1,7 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Alert, Pressable, ScrollView, Text, useColorScheme, View } from 'react-native';
+import { Alert, Keyboard, Pressable, Text, TouchableWithoutFeedback, useColorScheme, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { Screen } from '@/components/Screen';
 import { AboutTekTallyModal } from '@/components/settings/AboutTekTallyModal';
@@ -58,79 +59,89 @@ export default function SettingsScreen() {
 
   return (
     <Screen>
-      <ScrollView
+      <KeyboardAwareScrollView
+        style={{ flex: 1 }}
         className="flex-1"
-        contentContainerClassName="px-4 pb-8 pt-4"
+        contentContainerClassName="px-4 pt-4"
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}
+        enableOnAndroid
+        extraScrollHeight={100}
+        scrollToOverflowEnabled
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag"
       >
-        <Text className="text-2xl font-bold text-ledger-ink dark:text-neutral-100">Settings</Text>
-        <Text className="mt-1 text-sm text-ledger-muted dark:text-neutral-500">
-          Profile, security, and legal
-        </Text>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+          <View>
+              <Text className="text-2xl font-bold text-ledger-ink dark:text-neutral-100">Settings</Text>
+              <Text className="mt-1 text-sm text-ledger-muted dark:text-neutral-500">
+                Profile, security, and legal
+              </Text>
 
-        <Text className="mb-2 mt-8 text-xs font-semibold uppercase tracking-widest text-ledger-muted dark:text-neutral-500">
-          Profile
-        </Text>
-        <SettingsProfileCard />
+              <Text className="mb-2 mt-8 text-xs font-semibold uppercase tracking-widest text-ledger-muted dark:text-neutral-500">
+                Profile
+              </Text>
+              <SettingsProfileCard />
 
-        <Text className="mb-2 mt-2 text-xs font-semibold uppercase tracking-widest text-ledger-muted dark:text-neutral-500">
-          Preferences
-        </Text>
-        <SettingsGlassCard>
-          <SettingsCell
-            icon={<Ionicons name="finger-print-outline" size={22} color={iconMuted} />}
-            title="Security"
-            subtitle="Biometrics and device PIN"
-            onPress={showSecurityInfo}
-            isLast
-          />
-        </SettingsGlassCard>
+              <Text className="mb-2 mt-2 text-xs font-semibold uppercase tracking-widest text-ledger-muted dark:text-neutral-500">
+                Preferences
+              </Text>
+              <SettingsGlassCard>
+                <SettingsCell
+                  icon={<Ionicons name="finger-print-outline" size={22} color={iconMuted} />}
+                  title="Security"
+                  subtitle="Biometrics and device PIN"
+                  onPress={showSecurityInfo}
+                  isLast
+                />
+              </SettingsGlassCard>
 
-        <Text className="mb-2 mt-2 text-xs font-semibold uppercase tracking-widest text-ledger-muted dark:text-neutral-500">
-          Support & About
-        </Text>
-        <SettingsGlassCard>
-          <SettingsCell
-            icon={<Ionicons name="information-circle-outline" size={22} color={iconMuted} />}
-            title="About TekTally"
-            subtitle="Version, credits, and TekSquad"
-            onPress={() => setAboutOpen(true)}
-            isLast
-          />
-        </SettingsGlassCard>
+              <Text className="mb-2 mt-2 text-xs font-semibold uppercase tracking-widest text-ledger-muted dark:text-neutral-500">
+                Support & About
+              </Text>
+              <SettingsGlassCard>
+                <SettingsCell
+                  icon={<Ionicons name="information-circle-outline" size={22} color={iconMuted} />}
+                  title="About TekTally"
+                  subtitle="Version, credits, and TekSquad"
+                  onPress={() => setAboutOpen(true)}
+                  isLast
+                />
+              </SettingsGlassCard>
 
-        <Text className="mb-2 mt-2 text-xs font-semibold uppercase tracking-widest text-ledger-muted dark:text-neutral-500">
-          Legal
-        </Text>
-        <SettingsGlassCard>
-          <SettingsCell
-            icon={<Ionicons name="document-text-outline" size={22} color={iconMuted} />}
-            title="Terms of Service"
-            subtitle="TekTally by TekSquad — full terms"
-            onPress={openTerms}
-          />
-          <SettingsCell
-            icon={<Ionicons name="shield-checkmark-outline" size={22} color={iconMuted} />}
-            title="Privacy Policy"
-            subtitle="TekTally by TekSquad — how we handle data"
-            onPress={openPrivacy}
-            isLast
-          />
-        </SettingsGlassCard>
+              <Text className="mb-2 mt-2 text-xs font-semibold uppercase tracking-widest text-ledger-muted dark:text-neutral-500">
+                Legal
+              </Text>
+              <SettingsGlassCard>
+                <SettingsCell
+                  icon={<Ionicons name="document-text-outline" size={22} color={iconMuted} />}
+                  title="Terms of Service"
+                  subtitle="TekTally by TekSquad — full terms"
+                  onPress={openTerms}
+                />
+                <SettingsCell
+                  icon={<Ionicons name="shield-checkmark-outline" size={22} color={iconMuted} />}
+                  title="Privacy Policy"
+                  subtitle="TekTally by TekSquad — how we handle data"
+                  onPress={openPrivacy}
+                  isLast
+                />
+              </SettingsGlassCard>
 
-        <View className="mt-12 w-full border-t border-ledger-border/90 pt-8 dark:border-neutral-700/90">
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="Log out of TekTally"
-            onPress={confirmLogout}
-            className="flex-row items-center justify-center gap-2.5 rounded-[24px] border border-red-500/35 bg-red-500/10 py-4 active:opacity-85 dark:border-red-500/40 dark:bg-red-500/15"
-          >
-            <Ionicons name="log-out-outline" size={22} color={logoutIconColor} />
-            <Text className="text-base font-semibold text-red-600 dark:text-red-400">Log out</Text>
-          </Pressable>
-        </View>
-      </ScrollView>
+              <View className="mt-12 w-full border-t border-ledger-border/90 pt-8 dark:border-neutral-700/90">
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel="Log out of TekTally"
+                  onPress={confirmLogout}
+                  className="flex-row items-center justify-center gap-2.5 rounded-[24px] border border-red-500/35 bg-red-500/10 py-4 active:opacity-85 dark:border-red-500/40 dark:bg-red-500/15"
+                >
+                  <Ionicons name="log-out-outline" size={22} color={logoutIconColor} />
+                  <Text className="text-base font-semibold text-red-600 dark:text-red-400">Log out</Text>
+                </Pressable>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+      </KeyboardAwareScrollView>
 
       <AboutTekTallyModal visible={aboutOpen} onClose={() => setAboutOpen(false)} />
     </Screen>

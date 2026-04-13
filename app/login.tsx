@@ -1,14 +1,7 @@
 import * as Haptics from 'expo-haptics';
 import { useState } from 'react';
-import {
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import { Keyboard, Pressable, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { GlassInputWrap } from '@/components/GlassInputWrap';
 import { PrimaryButton } from '@/components/PrimaryButton';
@@ -54,104 +47,110 @@ export default function LoginScreen() {
 
   return (
     <Screen>
-      <KeyboardAvoidingView
-        className="flex-1"
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      <KeyboardAwareScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={{
+          flexGrow: 1,
+          justifyContent: 'center',
+          paddingHorizontal: 24,
+          paddingTop: 40,
+          paddingBottom: 100,
+        }}
+        enableOnAndroid
+        extraScrollHeight={100}
+        scrollToOverflowEnabled
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag"
+        showsVerticalScrollIndicator={false}
       >
-        <ScrollView
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{
-            flexGrow: 1,
-            justifyContent: 'center',
-            paddingHorizontal: 24,
-            paddingVertical: 40,
-          }}
-        >
-          <Text className="text-4xl font-bold tracking-tight text-ledger-ink dark:text-neutral-100">
-            TekTally
-          </Text>
-          <Text className="mt-2 text-base text-ledger-muted dark:text-neutral-500">
-            Track every rupee. Settle every balance.
-          </Text>
-
-          {!configured ? (
-            <View className="mt-6 rounded-[24px] bg-amber-50 p-4 dark:bg-amber-950/40" style={glass.card}>
-              <Text className="text-sm font-medium text-amber-900 dark:text-amber-200">
-                Firebase not configured
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+          <View>
+              <Text className="text-4xl font-bold tracking-tight text-ledger-ink dark:text-neutral-100">
+                TekTally
               </Text>
-              <Text className="mt-2 text-sm leading-5 text-amber-950/90 dark:text-amber-100/80">
-                Copy `.env.example` to `.env` and add your Firebase web app values from the Firebase
-                console (or set EXPO_PUBLIC_FB_* in EAS for production builds), then restart Expo.
+              <Text className="mt-2 text-base text-ledger-muted dark:text-neutral-500">
+                Track every rupee. Settle every balance.
+              </Text>
+
+              {!configured ? (
+                <View className="mt-6 rounded-[24px] bg-amber-50 p-4 dark:bg-amber-950/40" style={glass.card}>
+                  <Text className="text-sm font-medium text-amber-900 dark:text-amber-200">
+                    Firebase not configured
+                  </Text>
+                  <Text className="mt-2 text-sm leading-5 text-amber-950/90 dark:text-amber-100/80">
+                    Copy `.env.example` to `.env` and add your Firebase web app values from the Firebase
+                    console (or set EXPO_PUBLIC_FB_* in EAS for production builds), then restart Expo.
+                  </Text>
+                </View>
+              ) : null}
+
+              <Text className="mb-1.5 mt-8 text-xs font-medium uppercase tracking-wide text-ledger-muted dark:text-neutral-500">
+                Email
+              </Text>
+              <GlassInputWrap>
+                <TextInput
+                  className="bg-transparent px-4 py-3.5 text-base text-ledger-ink dark:text-neutral-100"
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                  autoComplete="email"
+                  placeholder="you@example.com"
+                  placeholderTextColor="#a8a29e"
+                  value={email}
+                  onChangeText={setEmail}
+                  underlineColorAndroid="transparent"
+                />
+              </GlassInputWrap>
+
+              <Text className="mb-1.5 mt-4 text-xs font-medium uppercase tracking-wide text-ledger-muted dark:text-neutral-500">
+                Password
+              </Text>
+              <GlassInputWrap>
+                <TextInput
+                  className="bg-transparent px-4 py-3.5 text-base text-ledger-ink dark:text-neutral-100"
+                  secureTextEntry
+                  placeholder="••••••••"
+                  placeholderTextColor="#a8a29e"
+                  value={password}
+                  onChangeText={setPassword}
+                  underlineColorAndroid="transparent"
+                />
+              </GlassInputWrap>
+
+              {error ? (
+                <Text className="mt-4 text-sm text-red-600 dark:text-red-400">{error}</Text>
+              ) : null}
+
+              <View className="mt-8">
+                <PrimaryButton
+                  title={mode === 'login' ? 'Sign in' : 'Create account'}
+                  onPress={submit}
+                  loading={loading}
+                />
+              </View>
+
+              <Pressable
+                className="mt-6 self-center py-2 active:opacity-70"
+                onPress={() => {
+                  void Haptics.selectionAsync();
+                  setMode((m) => (m === 'login' ? 'signup' : 'login'));
+                  setError(null);
+                }}
+              >
+                <Text className="text-center text-sm font-medium text-amber-700 dark:text-emerald-400">
+                  {mode === 'login' ? 'Need an account? Sign up' : 'Already have an account? Sign in'}
+                </Text>
+              </Pressable>
+
+              <Text className="mt-10 px-2 text-center text-[11px] leading-[16px] text-ledger-muted dark:text-neutral-500">
+                <Text className="font-medium text-ledger-ink/75 dark:text-neutral-400">TekTally</Text>
+                {' · '}
+                <Text className="text-ledger-muted/85 dark:text-neutral-500/85">
+                  v1.0 · by TekSquad · 2026
+                </Text>
               </Text>
             </View>
-          ) : null}
-
-          <Text className="mb-1.5 mt-8 text-xs font-medium uppercase tracking-wide text-ledger-muted dark:text-neutral-500">
-            Email
-          </Text>
-          <GlassInputWrap>
-            <TextInput
-              className="bg-transparent px-4 py-3.5 text-base text-ledger-ink dark:text-neutral-100"
-              autoCapitalize="none"
-              keyboardType="email-address"
-              autoComplete="email"
-              placeholder="you@example.com"
-              placeholderTextColor="#a8a29e"
-              value={email}
-              onChangeText={setEmail}
-              underlineColorAndroid="transparent"
-            />
-          </GlassInputWrap>
-
-          <Text className="mb-1.5 mt-4 text-xs font-medium uppercase tracking-wide text-ledger-muted dark:text-neutral-500">
-            Password
-          </Text>
-          <GlassInputWrap>
-            <TextInput
-              className="bg-transparent px-4 py-3.5 text-base text-ledger-ink dark:text-neutral-100"
-              secureTextEntry
-              placeholder="••••••••"
-              placeholderTextColor="#a8a29e"
-              value={password}
-              onChangeText={setPassword}
-              underlineColorAndroid="transparent"
-            />
-          </GlassInputWrap>
-
-          {error ? (
-            <Text className="mt-4 text-sm text-red-600 dark:text-red-400">{error}</Text>
-          ) : null}
-
-          <View className="mt-8">
-            <PrimaryButton
-              title={mode === 'login' ? 'Sign in' : 'Create account'}
-              onPress={submit}
-              loading={loading}
-            />
-          </View>
-
-          <Pressable
-            className="mt-6 self-center py-2 active:opacity-70"
-            onPress={() => {
-              void Haptics.selectionAsync();
-              setMode((m) => (m === 'login' ? 'signup' : 'login'));
-              setError(null);
-            }}
-          >
-            <Text className="text-center text-sm font-medium text-amber-700 dark:text-emerald-400">
-              {mode === 'login' ? 'Need an account? Sign up' : 'Already have an account? Sign in'}
-            </Text>
-          </Pressable>
-
-          <Text className="mt-10 px-2 text-center text-[11px] leading-[16px] text-ledger-muted dark:text-neutral-500">
-            <Text className="font-medium text-ledger-ink/75 dark:text-neutral-400">TekTally</Text>
-            {' · '}
-            <Text className="text-ledger-muted/85 dark:text-neutral-500/85">
-              v1.0 · by TekSquad · 2026
-            </Text>
-          </Text>
-        </ScrollView>
-      </KeyboardAvoidingView>
+          </TouchableWithoutFeedback>
+      </KeyboardAwareScrollView>
     </Screen>
   );
 }

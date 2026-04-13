@@ -57,8 +57,9 @@ export default function LegalScreen() {
         />
         <ScrollView
           style={{ flex: 1, zIndex: 1 }}
-          contentContainerStyle={{ padding: 20, paddingBottom: 40 }}
+          contentContainerStyle={{ flexGrow: 1, padding: 20, paddingBottom: 100 }}
           showsVerticalScrollIndicator
+          automaticallyAdjustKeyboardInsets
         >
           {blocks.map((block, i) => (
             <View key={i} className={i > 0 ? 'mt-1' : ''}>

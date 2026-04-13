@@ -16,6 +16,7 @@ import { AppBackground } from '@/components/AppBackground';
 import { PushNotificationsRoot } from '@/components/PushNotificationsRoot';
 import { SecurityProvider } from '@/components/SecurityProvider';
 import { AuthProvider, useAuthContext } from '@/context/auth-context';
+import { useCheckUpdates } from '@/hooks/useCheckUpdates';
 import { navigationThemeForScheme } from '@/lib/navigation-theme';
 
 export { ErrorBoundary } from 'expo-router';
@@ -80,6 +81,8 @@ function RootStack() {
 function ThemedRoot() {
   const scheme = useColorScheme();
   const navigationTheme = navigationThemeForScheme(scheme === 'dark' ? 'dark' : 'light');
+
+  useCheckUpdates();
 
   return (
     <ThemeProvider value={navigationTheme}>

@@ -72,7 +72,7 @@ export default function DashboardScreen() {
           </View>
           <Pressable
             accessibilityRole="button"
-            className="rounded-full bg-stone-200/90 p-2.5 active:bg-stone-300 dark:bg-neutral-800 dark:active:bg-neutral-700"
+            className="rounded-full bg-stone-200/80 p-2.5 border border-stone-300/60 shadow-sm hover:bg-stone-300/70 active:bg-stone-300 dark:bg-neutral-800/80 dark:border-neutral-700/60 dark:hover:bg-neutral-700/70 dark:active:bg-neutral-700 focus-visible:ring-2 focus-visible:ring-stone-500 dark:focus-visible:ring-stone-400"
             onPress={() => {
               void hapticLight();
               router.push('/transaction');
@@ -116,6 +116,8 @@ export default function DashboardScreen() {
             showsVerticalScrollIndicator={false}
             nestedScrollEnabled
             keyboardShouldPersistTaps="handled"
+            automaticallyAdjustKeyboardInsets
+            contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}
           >
             <FlashList
               data={activeProducts}
