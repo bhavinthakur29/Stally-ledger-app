@@ -20,6 +20,7 @@ import { useAuthContext } from '@/context/auth-context';
 import { useProducts } from '@/hooks/useProducts';
 import { useStallyIconColors } from '@/hooks/useStallyIconColors';
 import { parseRupeesInput } from '@/lib/currency';
+import { glassCardBorder, glassInputBorder } from '@/lib/glass-styles';
 import { hapticSuccess } from '@/lib/haptics';
 import { PAYMENT_EXCEEDS_BALANCE_MESSAGE } from '@/lib/payment-errors';
 import { addPaymentTransaction } from '@/lib/transactions';
@@ -141,10 +142,6 @@ export default function TransactionModalScreen() {
     }
   }
 
-  const amountBorderClass = amountExceedsBalance
-    ? 'border-red-500'
-    : 'border-ledger-border dark:border-neutral-800';
-
   return (
     <Screen>
       <ScrollView
@@ -174,7 +171,11 @@ export default function TransactionModalScreen() {
           Amount paid (₹)
         </Text>
         <TextInput
-          className={`rounded-2xl border bg-parchment px-4 py-3.5 text-base text-ledger-ink dark:bg-neutral-900 dark:text-neutral-100 ${amountBorderClass}`}
+          className="rounded-2xl bg-parchment px-4 py-3.5 text-base text-ledger-ink dark:bg-neutral-900 dark:text-neutral-100"
+          style={[
+            glassInputBorder,
+            amountExceedsBalance ? { borderColor: '#ef4444' } : null,
+          ]}
           placeholder="e.g. 5000"
           placeholderTextColor="#a8a29e"
           keyboardType="number-pad"
@@ -194,7 +195,8 @@ export default function TransactionModalScreen() {
           Note (optional)
         </Text>
         <TextInput
-          className="min-h-[88px] rounded-2xl border border-ledger-border bg-parchment px-4 py-3.5 text-base text-ledger-ink dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-100"
+          className="min-h-[88px] rounded-2xl bg-parchment px-4 py-3.5 text-base text-ledger-ink dark:bg-neutral-900 dark:text-neutral-100"
+          style={glassInputBorder}
           placeholder="Reference, bank, etc."
           placeholderTextColor="#a8a29e"
           multiline
@@ -208,7 +210,8 @@ export default function TransactionModalScreen() {
         <View className="flex-row flex-wrap items-center gap-3">
           <Pressable
             onPress={openReceiptPicker}
-            className="flex-row items-center gap-2 rounded-2xl border border-stone-300 bg-parchment px-4 py-3 active:bg-stone-200/80 dark:border-neutral-700 dark:bg-neutral-900 dark:active:bg-neutral-800"
+            className="flex-row items-center gap-2 rounded-2xl bg-parchment px-4 py-3 active:bg-stone-200/80 dark:bg-neutral-900 dark:active:bg-neutral-800"
+            style={glassCardBorder}
           >
             <ImagePlus color={icons.muted} size={20} />
             <Text className="text-sm font-medium text-stone-800 dark:text-neutral-200">

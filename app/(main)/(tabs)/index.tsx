@@ -5,12 +5,14 @@ import { useMemo, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 
 import { AddProductModal } from '@/components/AddProductModal';
-import { CurrencyText } from '@/components/CurrencyText';
+import { ProfileHeader } from '@/components/ProfileHeader';
+import { TotalOwedCard } from '@/components/TotalOwedCard';
 import { ProductCard } from '@/components/ProductCard';
 import { Screen } from '@/components/Screen';
 import { useAuthContext } from '@/context/auth-context';
 import { useProducts } from '@/hooks/useProducts';
 import { useStallyIconColors } from '@/hooks/useStallyIconColors';
+import { glassCardBorder } from '@/lib/glass-styles';
 import { hapticLight, hapticSuccess } from '@/lib/haptics';
 import { addProduct } from '@/lib/products';
 import type { ProductDoc } from '@/types';
@@ -59,6 +61,7 @@ export default function DashboardScreen() {
   return (
     <Screen>
       <View className="flex-1 px-4">
+        <ProfileHeader />
         <View className="flex-row items-center justify-between pb-2 pt-1">
           <View>
             <Text className="text-2xl font-bold text-ledger-ink dark:text-neutral-100">Stally</Text>
@@ -88,15 +91,7 @@ export default function DashboardScreen() {
           </View>
         </View>
 
-        <View className="mt-4 rounded-[24px] border border-amber-200/90 bg-amber-50/80 px-5 py-4 dark:border-emerald-900/40 dark:bg-emerald-950/30">
-          <Text className="text-sm font-medium uppercase tracking-wide text-amber-800/90 dark:text-emerald-600/90">
-            Total owed
-          </Text>
-          <CurrencyText
-            rupees={totalOwed}
-            className="mt-1 text-3xl font-bold text-amber-800 dark:text-emerald-400"
-          />
-        </View>
+        <TotalOwedCard totalRupees={totalOwed} />
 
         {!configured ? (
           <Text className="mt-4 text-center text-sm text-amber-800 dark:text-amber-400">
@@ -162,8 +157,8 @@ export default function DashboardScreen() {
                   accessibilityRole="button"
                   accessibilityState={{ expanded: settledOpen }}
                   onPress={toggleSettled}
-                  className="flex-row items-center justify-between rounded-2xl border border-ledger-border bg-parchment/60 px-4 py-3.5 active:bg-stone-200/70 dark:border-neutral-800 dark:bg-neutral-900/50 dark:active:bg-neutral-800"
-                  style={{ minHeight: SETTLED_HEADER_HEIGHT }}
+                  className="flex-row items-center justify-between rounded-2xl bg-parchment/60 px-4 py-3.5 active:bg-stone-200/70 dark:bg-neutral-900/50 dark:active:bg-neutral-800"
+                  style={[glassCardBorder, { minHeight: SETTLED_HEADER_HEIGHT }]}
                 >
                   <View>
                     <Text className="text-sm font-semibold text-ledger-ink dark:text-neutral-100">

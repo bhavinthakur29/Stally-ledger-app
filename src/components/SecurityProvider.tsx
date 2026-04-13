@@ -4,6 +4,7 @@ import {
   authenticateAsync,
   getEnrolledLevelAsync,
 } from 'expo-local-authentication';
+import { useColorScheme } from 'nativewind';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import {
@@ -12,7 +13,6 @@ import {
   Platform,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -29,8 +29,8 @@ type Props = {
 
 export function SecurityProvider({ children }: Props) {
   const { user } = useAuthContext();
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme !== 'light';
 
   const [appState, setAppState] = useState<AppStateStatus>(AppState.currentState);
   const prevAppStateRef = useRef<AppStateStatus>(AppState.currentState);

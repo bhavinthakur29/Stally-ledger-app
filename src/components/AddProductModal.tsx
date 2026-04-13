@@ -3,6 +3,7 @@ import { Modal, Text, TextInput, View } from 'react-native';
 
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { parseRupeesInput } from '@/lib/currency';
+import { glassCardBorder } from '@/lib/glass-styles';
 
 type Props = {
   visible: boolean;
@@ -43,7 +44,10 @@ export function AddProductModal({ visible, onClose, onSubmit }: Props) {
   return (
     <Modal visible={visible} animationType="slide" transparent>
       <View className="flex-1 justify-end bg-stone-900/50 dark:bg-black/60">
-        <View className="rounded-t-[24px] border border-ledger-border border-b-0 bg-cream px-5 pb-10 pt-6 dark:border-neutral-800 dark:bg-neutral-950">
+        <View
+          className="rounded-t-[24px] border-b-0 bg-cream px-5 pb-10 pt-6 dark:bg-neutral-950"
+          style={glassCardBorder}
+        >
           <Text className="text-xl font-bold text-ledger-ink dark:text-neutral-100">New product</Text>
           <Text className="mt-1 text-sm text-ledger-muted dark:text-neutral-500">
             Track what is owed for a purchase, loan, or subscription.

@@ -11,7 +11,7 @@ import { useAuthContext } from '@/context/auth-context';
 import { useProducts } from '@/hooks/useProducts';
 import { useProductTransactions } from '@/hooks/useProductTransactions';
 import { useStallyIconColors } from '@/hooks/useStallyIconColors';
-import { formatInrRupees } from '@/lib/currency';
+import { glassCardBorder } from '@/lib/glass-styles';
 import { hapticLight } from '@/lib/haptics';
 import type { TransactionDoc } from '@/types';
 
@@ -49,7 +49,10 @@ export default function ProductDetailScreen() {
   return (
     <Screen>
       <View className="flex-1 px-4 pt-2">
-        <View className="rounded-[24px] border border-ledger-border bg-parchment/90 px-5 py-4 dark:border-neutral-800 dark:bg-neutral-900/80">
+        <View
+          className="rounded-[24px] bg-parchment/90 px-5 py-4 dark:bg-neutral-900/80"
+          style={glassCardBorder}
+        >
           <View className="flex-row items-start justify-between gap-3">
             <View className="min-w-0 flex-1">
               <Text
@@ -99,11 +102,16 @@ export default function ProductDetailScreen() {
             )
           }
           renderItem={({ item }) => (
-            <View className="mb-2 flex-row items-center rounded-[24px] border border-ledger-border bg-parchment/70 px-4 py-3 dark:border-neutral-800 dark:bg-neutral-900/60">
+            <View
+              className="mb-2 flex-row items-center rounded-[24px] bg-parchment/70 px-4 py-3 dark:bg-neutral-900/60"
+              style={glassCardBorder}
+            >
               <View className="min-w-0 flex-1">
-                <Text className="text-base font-semibold text-amber-800 dark:text-emerald-400">
-                  {formatInrRupees(item.amount)}
-                </Text>
+                <CurrencyText
+                  rupees={item.amount}
+                  variant="regular"
+                  className="text-base text-amber-800 dark:text-emerald-400"
+                />
                 <Text className="text-xs text-ledger-muted dark:text-neutral-500">{formatWhen(item)}</Text>
                 {item.note ? (
                   <Text

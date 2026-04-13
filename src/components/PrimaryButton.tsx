@@ -1,4 +1,5 @@
-import { ActivityIndicator, Pressable, Text, useColorScheme } from 'react-native';
+import { useColorScheme } from 'nativewind';
+import { ActivityIndicator, Pressable, Text } from 'react-native';
 
 type Props = {
   title: string;
@@ -15,8 +16,8 @@ export function PrimaryButton({
   loading,
   variant = 'solid',
 }: Props) {
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme !== 'light';
   const isDisabled = disabled || loading;
   const base =
     variant === 'solid'

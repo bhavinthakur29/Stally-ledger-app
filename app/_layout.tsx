@@ -1,15 +1,23 @@
 import '../global.css';
 
+import {
+  SpaceMono_400Regular,
+  SpaceMono_700Bold,
+  useFonts as useSpaceMonoFonts,
+} from '@expo-google-fonts/space-mono';
 import { ThemeProvider } from '@react-navigation/native';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import { ActivityIndicator, useColorScheme, View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
+import { useColorScheme } from 'nativewind';
 import 'react-native-reanimated';
 
+import { AppBackground } from '@/components/AppBackground';
 import { PushNotificationsRoot } from '@/components/PushNotificationsRoot';
 import { SecurityProvider } from '@/components/SecurityProvider';
 import { AuthProvider, useAuthContext } from '@/context/auth-context';
+import { ThemePreferenceProvider } from '@/context/theme-preference-context';
 import { navigationThemeForScheme } from '@/lib/navigation-theme';
 
 export { ErrorBoundary } from 'expo-router';
@@ -24,7 +32,8 @@ function AuthGate({ children }: { children: React.ReactNode }) {
   const { user, loading, configured } = useAuthContext();
   const segments = useSegments();
   const router = useRouter();
-  const colorScheme = useColorScheme();
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme !== 'light';
 
   useEffect(() => {
     if (loading) return;
@@ -44,11 +53,11 @@ function AuthGate({ children }: { children: React.ReactNode }) {
 
   if (loading && configured) {
     return (
-      <View className="flex-1 items-center justify-center bg-cream dark:bg-neutral-950">
-        <ActivityIndicator
-          size="large"
-          color={colorScheme === 'dark' ? '#34D399' : '#D97706'}
-        />
+      <View className="flex-1 bg-transparent">
+        <AppBackground />
+        <View className="absolute inset-0 z-10 items-center justify-center">
+          <ActivityIndicator size="large" color={isDark ? '#34D399' : '#D97706'} />
+        </View>
       </View>
     );
   }
@@ -57,14 +66,11 @@ function AuthGate({ children }: { children: React.ReactNode }) {
 }
 
 function RootStack() {
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
-
   return (
     <Stack
       screenOptions={{
         headerShown: false,
-        contentStyle: { backgroundColor: isDark ? '#0a0a0a' : '#fffdf5' },
+        contentStyle: { backgroundColor: 'transparent' },
       }}
     >
       <Stack.Screen name="login" />
@@ -74,8 +80,8 @@ function RootStack() {
 }
 
 function ThemedRoot() {
-  const colorScheme = useColorScheme();
-  const navigationTheme = navigationThemeForScheme(colorScheme);
+  const { colorScheme } = useColorScheme();
+  const navigationTheme = navigationThemeForScheme(colorScheme === 'light' ? 'light' : 'dark');
 
   return (
     <ThemeProvider value={navigationTheme}>
@@ -93,5 +99,18 @@ function ThemedRoot() {
 }
 
 export default function RootLayout() {
-  return <ThemedRoot />;
+  const [fontsLoaded, fontError] = useSpaceMonoFonts({
+    SpaceMono_400Regular,
+    SpaceMono_700Bold,
+  });
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
+
+  return (
+    <ThemePreferenceProvider>
+      <ThemedRoot />
+    </ThemePreferenceProvider>
+  );
 }

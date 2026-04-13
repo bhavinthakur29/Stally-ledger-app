@@ -11,7 +11,7 @@ export default function MainLayout() {
         headerTintColor: theme.colors.text,
         headerTitleStyle: { fontWeight: '600', color: theme.colors.text },
         headerShadowVisible: false,
-        contentStyle: { backgroundColor: theme.colors.background },
+        contentStyle: { backgroundColor: 'transparent' },
       }}
     >
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

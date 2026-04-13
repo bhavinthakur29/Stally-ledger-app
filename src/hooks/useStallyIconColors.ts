@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
-import { useColorScheme } from 'react-native';
+import { useColorScheme } from 'nativewind';
 
 export function useStallyIconColors() {
-  const scheme = useColorScheme();
+  const { colorScheme } = useColorScheme();
+  const isDark = colorScheme !== 'light';
   return useMemo(() => {
-    const isDark = scheme === 'dark';
     return {
       isDark,
       muted: isDark ? '#a3a3a3' : '#78716c',
@@ -12,5 +12,5 @@ export function useStallyIconColors() {
       accent: isDark ? '#34d399' : '#d97706',
       onPrimaryButton: '#0a0a0a',
     };
-  }, [scheme]);
+  }, [isDark]);
 }

@@ -12,6 +12,7 @@ import {
 
 import { PrimaryButton } from '@/components/PrimaryButton';
 import { Screen } from '@/components/Screen';
+import { glassCardBorder } from '@/lib/glass-styles';
 import { useAuthContext } from '@/context/auth-context';
 import { hapticSuccess } from '@/lib/haptics';
 
@@ -67,7 +68,10 @@ export default function LoginScreen() {
           </Text>
 
           {!configured ? (
-            <View className="mt-6 rounded-[24px] border border-amber-300 bg-amber-50 p-4 dark:border-amber-900/60 dark:bg-amber-950/40">
+            <View
+              className="mt-6 rounded-[24px] bg-amber-50 p-4 dark:bg-amber-950/40"
+              style={glassCardBorder}
+            >
               <Text className="text-sm font-medium text-amber-900 dark:text-amber-200">
                 Firebase not configured
               </Text>
