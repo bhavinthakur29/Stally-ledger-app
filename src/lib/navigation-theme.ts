@@ -14,8 +14,8 @@ export const warmLightTheme: Theme = {
   },
 };
 
-/** Dark — slate surfaces, emerald accents (existing Stally dark). */
-export const stallyDarkTheme: Theme = {
+/** Dark — slate surfaces, emerald accents (TekTally dark). */
+export const tektallyDarkTheme: Theme = {
   ...DarkTheme,
   colors: {
     ...DarkTheme.colors,
@@ -31,5 +31,5 @@ export const stallyDarkTheme: Theme = {
 export function navigationThemeForScheme(
   scheme: 'light' | 'dark' | null | undefined
 ): Theme {
-  return scheme === 'dark' ? stallyDarkTheme : warmLightTheme;
+  return scheme === 'dark' ? tektallyDarkTheme : warmLightTheme;
 }

@@ -2,7 +2,7 @@
  * Sends a remote push via Expo's push service (same path production backends use).
  * Requires a valid Expo push token from the device.
  */
-export async function sendTestPushHelloFromStally(expoPushToken: string): Promise<void> {
+export async function sendTestPushHelloFromTekTally(expoPushToken: string): Promise<void> {
   const response = await fetch('https://exp.host/--/api/v2/push/send', {
     method: 'POST',
     headers: {
@@ -11,8 +11,8 @@ export async function sendTestPushHelloFromStally(expoPushToken: string): Promis
     },
     body: JSON.stringify({
       to: expoPushToken,
-      title: 'Stally',
-      body: 'Hello from Stally!',
+      title: 'TekTally',
+      body: 'Hello from TekTally!',
       sound: 'default',
       priority: 'high',
       channelId: 'default',

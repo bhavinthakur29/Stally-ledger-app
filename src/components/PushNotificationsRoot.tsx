@@ -35,7 +35,7 @@ export function PushNotificationsRoot({ children }: { children: ReactNode }) {
     if (!configured || Platform.OS === 'web') return;
 
     const sub = Notifications.addNotificationReceivedListener((notification) => {
-      const title = notification.request.content.title ?? 'Stally';
+      const title = notification.request.content.title ?? 'TekTally';
       const body = notification.request.content.body ?? '';
       Alert.alert(title, body || undefined, [{ text: 'OK' }]);
     });

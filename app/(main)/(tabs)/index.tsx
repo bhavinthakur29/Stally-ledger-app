@@ -1,6 +1,6 @@
 import { FlashList } from '@shopify/flash-list';
 import { useRouter } from 'expo-router';
-import { ChevronDown, ChevronUp, LogOut, Plus, Receipt } from 'lucide-react-native';
+import { ChevronDown, ChevronUp, Plus, Receipt } from 'lucide-react-native';
 import { useMemo, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 
@@ -11,7 +11,7 @@ import { Screen } from '@/components/Screen';
 import { TotalOwedCard } from '@/components/TotalOwedCard';
 import { useAuthContext } from '@/context/auth-context';
 import { useProducts } from '@/hooks/useProducts';
-import { useStallyIconColors } from '@/hooks/useStallyIconColors';
+import { useTekTallyIconColors } from '@/hooks/useTekTallyIconColors';
 import { useGlassBorder } from '@/lib/glass-styles';
 import { hapticLight, hapticSuccess } from '@/lib/haptics';
 import { addProduct } from '@/lib/products';
@@ -24,9 +24,9 @@ const SETTLED_HEADER_HEIGHT = 52;
 
 export default function DashboardScreen() {
   const router = useRouter();
-  const icons = useStallyIconColors();
+  const icons = useTekTallyIconColors();
   const glass = useGlassBorder();
-  const { user, logOut, configured } = useAuthContext();
+  const { user, configured } = useAuthContext();
   const { products, activeProducts, settledProducts, totalOwed, loading, error } = useProducts(
     user?.uid
   );
@@ -65,31 +65,21 @@ export default function DashboardScreen() {
         <ProfileHeader />
         <View className="flex-row items-center justify-between pb-2 pt-1">
           <View>
-            <Text className="text-2xl font-bold text-ledger-ink dark:text-neutral-100">TekTally</Text>
+            <Text className="text-2xl font-bold text-ledger-ink dark:text-neutral-100">
+              Welcome to TekTally
+            </Text>
             <Text className="text-sm text-ledger-muted dark:text-neutral-500">Your financial ledger</Text>
           </View>
-          <View className="flex-row gap-2">
-            <Pressable
-              accessibilityRole="button"
-              className="rounded-full bg-stone-200/90 p-2.5 active:bg-stone-300 dark:bg-neutral-800 dark:active:bg-neutral-700"
-              onPress={() => {
-                void hapticLight();
-                router.push('/transaction');
-              }}
-            >
-              <Receipt color={icons.muted} size={22} />
-            </Pressable>
-            <Pressable
-              accessibilityRole="button"
-              className="rounded-full bg-stone-200/90 p-2.5 active:bg-stone-300 dark:bg-neutral-800 dark:active:bg-neutral-700"
-              onPress={() => {
-                void hapticLight();
-                void logOut();
-              }}
-            >
-              <LogOut color={icons.muted} size={22} />
-            </Pressable>
-          </View>
+          <Pressable
+            accessibilityRole="button"
+            className="rounded-full bg-stone-200/90 p-2.5 active:bg-stone-300 dark:bg-neutral-800 dark:active:bg-neutral-700"
+            onPress={() => {
+              void hapticLight();
+              router.push('/transaction');
+            }}
+          >
+            <Receipt color={icons.muted} size={22} />
+          </Pressable>
         </View>
 
         <TotalOwedCard totalRupees={totalOwed} />

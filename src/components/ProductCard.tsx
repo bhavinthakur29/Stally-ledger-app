@@ -2,7 +2,7 @@ import { CheckCircle2, ChevronRight } from 'lucide-react-native';
 import { Pressable, Text, View } from 'react-native';
 
 import { CurrencyText } from '@/components/CurrencyText';
-import { useStallyIconColors } from '@/hooks/useStallyIconColors';
+import { useTekTallyIconColors } from '@/hooks/useTekTallyIconColors';
 import { useGlassBorder } from '@/lib/glass-styles';
 import type { ProductDoc } from '@/types';
 
@@ -14,7 +14,7 @@ type Props = {
 };
 
 export function ProductCard({ product, onPress, settled = false }: Props) {
-  const icons = useStallyIconColors();
+  const icons = useTekTallyIconColors();
   const glass = useGlassBorder();
 
   return (

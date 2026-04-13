@@ -10,7 +10,7 @@ import { Screen } from '@/components/Screen';
 import { useAuthContext } from '@/context/auth-context';
 import { useProducts } from '@/hooks/useProducts';
 import { useProductTransactions } from '@/hooks/useProductTransactions';
-import { useStallyIconColors } from '@/hooks/useStallyIconColors';
+import { useTekTallyIconColors } from '@/hooks/useTekTallyIconColors';
 import { useGlassBorder } from '@/lib/glass-styles';
 import { hapticLight } from '@/lib/haptics';
 import type { TransactionDoc } from '@/types';
@@ -35,7 +35,7 @@ export default function ProductDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const productId = typeof id === 'string' ? id : '';
   const router = useRouter();
-  const icons = useStallyIconColors();
+  const icons = useTekTallyIconColors();
   const { user } = useAuthContext();
   const { products } = useProducts(user?.uid);
   const { transactions, loading, error } = useProductTransactions(user?.uid, productId);

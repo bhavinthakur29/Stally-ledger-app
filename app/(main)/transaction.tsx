@@ -19,7 +19,7 @@ import { PrimaryButton } from '@/components/PrimaryButton';
 import { Screen } from '@/components/Screen';
 import { useAuthContext } from '@/context/auth-context';
 import { useProducts } from '@/hooks/useProducts';
-import { useStallyIconColors } from '@/hooks/useStallyIconColors';
+import { useTekTallyIconColors } from '@/hooks/useTekTallyIconColors';
 import { parseRupeesInput } from '@/lib/currency';
 import { useGlassBorder } from '@/lib/glass-styles';
 import { hapticLight, hapticSuccess } from '@/lib/haptics';
@@ -29,7 +29,7 @@ import type { ProductDoc } from '@/types';
 
 export default function TransactionModalScreen() {
   const router = useRouter();
-  const icons = useStallyIconColors();
+  const icons = useTekTallyIconColors();
   const glass = useGlassBorder();
   const params = useLocalSearchParams<{ productId?: string }>();
   const preselect = typeof params.productId === 'string' ? params.productId : undefined;

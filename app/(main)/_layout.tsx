@@ -24,6 +24,12 @@ export default function MainLayout() {
           headerStyle: { backgroundColor: theme.colors.card },
         }}
       />
+      <Stack.Screen
+        name="legal"
+        options={{
+          title: 'Legal',
+        }}
+      />
     </Stack>
   );
 }

@@ -5,7 +5,7 @@ import { Modal, Pressable, Text, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { PrimaryButton } from '@/components/PrimaryButton';
-import { useStallyIconColors } from '@/hooks/useStallyIconColors';
+import { useTekTallyIconColors } from '@/hooks/useTekTallyIconColors';
 
 const TEKSQUAD_URL = 'https://teksquad.netlify.app/';
 
@@ -14,8 +14,8 @@ type Props = {
   onClose: () => void;
 };
 
-export function AboutStallyModal({ visible, onClose }: Props) {
-  const icons = useStallyIconColors();
+export function AboutTekTallyModal({ visible, onClose }: Props) {
+  const icons = useTekTallyIconColors();
   const scheme = useColorScheme();
   const isDark = scheme === 'dark';
   const version = Constants.expoConfig?.version ?? '—';
@@ -46,6 +46,9 @@ export function AboutStallyModal({ visible, onClose }: Props) {
 
         <View className="flex-1 px-5 pt-6">
           <Text className="text-2xl font-bold text-ledger-ink dark:text-neutral-100">TekTally</Text>
+          <Text className="mt-1 text-xs font-semibold uppercase tracking-wide text-amber-800/90 dark:text-emerald-400/90">
+            TekTally by TekSquad
+          </Text>
           <Text className="mt-2 text-sm text-ledger-muted dark:text-neutral-500">
             Your personal ledger for what you owe.
           </Text>

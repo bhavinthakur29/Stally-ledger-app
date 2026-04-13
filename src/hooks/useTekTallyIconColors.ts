@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useColorScheme } from 'react-native';
 
-export function useStallyIconColors() {
+export function useTekTallyIconColors() {
   const scheme = useColorScheme();
   const isDark = scheme === 'dark';
   return useMemo(() => {
