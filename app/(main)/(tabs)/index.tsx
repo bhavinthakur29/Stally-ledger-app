@@ -86,7 +86,7 @@ export default function DashboardScreen() {
 
         {!configured ? (
           <Text className="mt-4 text-center text-sm text-amber-800 dark:text-amber-400">
-            Configure Firebase in app.json to load products.
+            Configure Firebase (.env or EAS secrets) to load products.
           </Text>
         ) : null}
 

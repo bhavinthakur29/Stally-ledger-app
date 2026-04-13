@@ -1,6 +1,6 @@
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 
-import { getFirestoreDb } from '@/lib/firebase';
+import { getFirestoreDb } from '@/config/firebase';
 
 export async function addProduct(params: {
   userId: string;

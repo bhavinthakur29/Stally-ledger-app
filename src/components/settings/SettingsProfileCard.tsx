@@ -178,7 +178,7 @@ export function SettingsProfileCard() {
 
         {!configured ? (
           <Text className="mt-3 text-center text-xs text-amber-800 dark:text-amber-400">
-            Configure Firebase in app.json to sync profile to Firestore.
+            Configure Firebase (.env or EAS secrets) to sync profile to Firestore.
           </Text>
         ) : null}
       </View>

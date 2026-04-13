@@ -7,7 +7,7 @@ import {
 } from 'firebase/firestore';
 import { useEffect, useMemo, useState } from 'react';
 
-import { getFirestoreDb } from '@/lib/firebase';
+import { getFirestoreDb } from '@/config/firebase';
 import type { ProductDoc } from '@/types';
 
 function mapProducts(snap: QuerySnapshot): ProductDoc[] {

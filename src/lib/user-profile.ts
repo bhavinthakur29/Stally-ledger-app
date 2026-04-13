@@ -1,7 +1,7 @@
 import { reload, updateProfile } from 'firebase/auth';
 import { doc, setDoc, updateDoc } from 'firebase/firestore';
 
-import { getFirebaseAuth, getFirestoreDb } from '@/lib/firebase';
+import { getFirebaseAuth, getFirestoreDb } from '@/config/firebase';
 
 /**
  * Updates Firebase Auth `displayName` and mirrors to `users/{uid}` in Firestore.

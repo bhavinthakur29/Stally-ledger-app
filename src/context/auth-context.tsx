@@ -7,7 +7,7 @@ import {
 } from 'firebase/auth';
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
-import { getFirebaseAuth, isFirebaseConfigured } from '@/lib/firebase';
+import { getFirebaseAuth, isFirebaseConfigured } from '@/config/firebase';
 
 type AuthContextValue = {
   user: User | null;

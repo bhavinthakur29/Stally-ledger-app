@@ -2,7 +2,7 @@
   "expo": {
     "name": "TekTally",
     "displayName": "TekTally",
-    "slug": "tektally",
+    "slug": "stally",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -10,7 +10,7 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/icon.png",
+      "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#0a0a0a"
     },
@@ -23,6 +23,7 @@
     },
     "android": {
       "package": "com.teksquad.stally",
+      "versionCode": 1,
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
@@ -31,8 +32,14 @@
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "permissions": [
-        "android.permission.RECORD_AUDIO",
-        "android.permission.POST_NOTIFICATIONS"
+        "android.permission.INTERNET",
+        "android.permission.CAMERA",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.USE_BIOMETRIC"
+      ],
+      "blockedPermissions": [
+        "android.permission.RECORD_AUDIO"
       ]
     },
     "web": {
@@ -68,14 +75,6 @@
       "typedRoutes": true
     },
     "extra": {
-      "firebase": {
-        "apiKey": "AIzaSyDVXnSTHY3JZuX9XoVrdhfW32Vx4-okvo4",
-        "authDomain": "stally-v1.firebaseapp.com",
-        "projectId": "stally-v1",
-        "storageBucket": "stally-v1.firebasestorage.app",
-        "messagingSenderId": "537805896833",
-        "appId": "1:537805896833:web:27d90e20745d07c7296180"
-      },
       "router": {},
       "eas": {
         "projectId": "200290ef-af01-4c48-a611-82bc44a61733"

@@ -7,7 +7,7 @@ import {
 } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
-import { getFirestoreDb, getFirebaseStorage } from '@/lib/firebase';
+import { getFirestoreDb, getFirebaseStorage } from '@/config/firebase';
 import { PAYMENT_EXCEEDS_BALANCE_MESSAGE } from '@/lib/payment-errors';
 import { compressReceiptForUpload } from '@/lib/receipt-compress';
 

@@ -6,12 +6,16 @@ import {
   getFirestore,
   initializeFirestore,
   memoryLocalCache,
-  type Firestore
+  type Firestore,
 } from 'firebase/firestore';
 import { getStorage, type FirebaseStorage } from 'firebase/storage';
 
 import type { FirebaseConfigShape } from '@/types';
 
+/**
+ * Single source for Firebase client config (from Expo extra, injected via app.config.js / EAS env).
+ * Do not put API keys in UI components — reference this module only.
+ */
 function readFirebaseConfig(): FirebaseConfigShape {
   const extra = Constants.expoConfig?.extra as { firebase?: FirebaseConfigShape } | undefined;
   const fromExtra = extra?.firebase;
@@ -57,7 +61,7 @@ let storageInstance: FirebaseStorage | undefined;
 function ensureApp(): FirebaseApp {
   if (!isFirebaseConfigured()) {
     throw new Error(
-      'Firebase is not configured. Set expo.extra.firebase in app.json or EXPO_PUBLIC_FB_* env vars.'
+      'Firebase is not configured. Set EXPO_PUBLIC_FB_* in .env (local) or EAS secrets (production); see .env.example.'
     );
   }
   if (!appInstance) {
@@ -89,8 +93,7 @@ export function getFirestoreDb(): Firestore {
     const app = ensureApp();
     try {
       dbInstance = initializeFirestore(app, {
-        localCache: memoryLocalCache({
-        }),
+        localCache: memoryLocalCache({}),
       });
     } catch {
       dbInstance = getFirestore(app);

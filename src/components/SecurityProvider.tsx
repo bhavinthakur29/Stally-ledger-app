@@ -39,6 +39,7 @@ export function SecurityProvider({ children }: Props) {
   /** Snapshot: was the ledger visible (unlocked) right before we went to background/inactive? */
   const wasUnlockedAtBackgroundRef = useRef(false);
   const isLockedRef = useRef(true);
+  /** Cold start: treat the ledger as locked until biometrics succeed (or no enrolled security). */
   const [isLocked, setIsLocked] = useState(true);
   const authInFlight = useRef(false);
 

@@ -7,7 +7,7 @@ import {
 } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 
-import { getFirestoreDb } from '@/lib/firebase';
+import { getFirestoreDb } from '@/config/firebase';
 import type { TransactionDoc } from '@/types';
 
 function mapTx(snap: QuerySnapshot): TransactionDoc[] {

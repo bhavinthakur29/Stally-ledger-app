@@ -3,7 +3,7 @@ import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 
-import { getFirestoreDb } from '@/lib/firebase';
+import { getFirestoreDb } from '@/config/firebase';
 import { deleteField, doc, setDoc } from 'firebase/firestore';
 
 const ANDROID_DEFAULT_CHANNEL_ID = 'default';

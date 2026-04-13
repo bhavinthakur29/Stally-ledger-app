@@ -29,7 +29,7 @@ export default function LoginScreen() {
   async function submit() {
     setError(null);
     if (!configured) {
-      setError('Add Firebase keys under expo.extra.firebase in app.json (or EXPO_PUBLIC_FB_*).');
+      setError('Add Firebase keys to your .env (see .env.example) or EAS secrets as EXPO_PUBLIC_FB_*.');
       return;
     }
     if (!email.trim() || password.length < 6) {
@@ -80,8 +80,8 @@ export default function LoginScreen() {
                 Firebase not configured
               </Text>
               <Text className="mt-2 text-sm leading-5 text-amber-950/90 dark:text-amber-100/80">
-                Open app.json and fill expo.extra.firebase with your web app config from the Firebase
-                console, then restart Expo.
+                Copy `.env.example` to `.env` and add your Firebase web app values from the Firebase
+                console (or set EXPO_PUBLIC_FB_* in EAS for production builds), then restart Expo.
               </Text>
             </View>
           ) : null}
